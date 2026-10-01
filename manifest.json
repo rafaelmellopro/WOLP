@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "id": "wolp.pc",
+  "name": "Wake PC",
+  "version": "1.3.0",
+  "author": "Rafael Mello",
+  "license": "MIT",
+  "description": "Wake and shut down one or more PCs from an Omarchy bar panel, via Wake-on-LAN, UpSnap, SSH, Windows RPC, HTTP or a custom command.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Wake PC",
+    "description": "Wake-on-LAN panel for one or more PCs, with live status, ping time and shutdown.",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "label": "PC",
+      "mode": "magic-packet",
+      "mac": "",
+      "broadcast": "255.255.255.255",
+      "port": 9,
+      "host": "",
+      "upsnapUrl": "",
+      "deviceId": "",
+      "identity": "",
+      "passwordFile": "",
+      "shutdownMethod": "none",
+      "shutdownHost": "",
+      "shutdownUser": "",
+      "shutdownPasswordFile": "",
+      "shutdownCommand": "",
+      "sshPort": 22,
+      "sshKey": "",
+      "shutdownUrl": "",
+      "shutdownHttpMethod": "POST",
+      "pollSec": 30
+    },
+    "schema": [
+      {
+        "key": "label",
+        "type": "string",
+        "label": "Name",
+        "description": "Shown in the panel and notifications. These settings are your first PC; add more from the panel's + button.",
+        "defaultValue": "PC"
+      },
+      {
+        "key": "mode",
+        "type": "enum",
+        "label": "Wake method",
+        "options": [
+          "magic-packet",
+          "upsnap"
+        ],
+        "defaultValue": "magic-packet",
+        "description": "Send the packet directly, or ask an UpSnap server to wake the device."
+      },
+      {
+        "key": "mac",
+        "type": "string",
+        "label": "MAC address",
+        "description": "Magic packet mode: target NIC, e.g. AA:BB:CC:DD:EE:FF.",
+        "defaultValue": ""
+      },
+      {
+        "key": "broadcast",
+        "type": "string",
+        "label": "Broadcast address",
+        "description": "Magic packet mode: e.g. 192.168.1.255.",
+        "defaultValue": "255.255.255.255"
+      },
+      {
+        "key": "port",
+        "type": "integer",
+        "label": "UDP port",
+        "min": 1,
+        "max": 65535,
+        "step": 1,
+        "defaultValue": 9
+      },
+      {
+        "key": "host",
+        "type": "string",
+        "label": "Host / IP",
+        "description": "Magic packet mode: pinged to determine online status.",
+        "defaultValue": ""
+      },
+      {
+        "key": "upsnapUrl",
+        "type": "string",
+        "label": "UpSnap URL",
+        "description": "UpSnap mode: e.g. http://upsnap.lan:8090",
+        "defaultValue": ""
+      },
+      {
+        "key": "deviceId",
+        "type": "string",
+        "label": "UpSnap device ID",
+        "description": "UpSnap mode: the device record ID.",
+        "defaultValue": ""
+      },
+      {
+        "key": "identity",
+        "type": "string",
+        "label": "UpSnap username/email",
+        "description": "UpSnap mode: leave empty if the device is public.",
+        "defaultValue": ""
+      },
+      {
+        "key": "passwordFile",
+        "type": "path",
+        "label": "UpSnap password file",
+        "description": "UpSnap mode: file containing only the password (chmod 600).",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownMethod",
+        "type": "enum",
+        "label": "Shutdown method",
+        "options": [
+          "none",
+          "upsnap",
+          "ssh",
+          "windows",
+          "http",
+          "command"
+        ],
+        "defaultValue": "none",
+        "description": "How to shut the PC down when you click it while it is online. Independent of the wake method."
+      },
+      {
+        "key": "shutdownHost",
+        "type": "string",
+        "label": "Shutdown host",
+        "description": "SSH / Windows: PC address. Leave empty to use Host / IP.",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownUser",
+        "type": "string",
+        "label": "Shutdown username",
+        "description": "SSH: login user. Windows: account name, optionally DOMAIN\\user.",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownPasswordFile",
+        "type": "path",
+        "label": "Shutdown password file",
+        "description": "Windows: file containing only the account password (chmod 600).",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownCommand",
+        "type": "string",
+        "label": "Shutdown command",
+        "description": "SSH: run on the PC (default: sudo systemctl poweroff). Command: run locally with sh; $WAKE_PC_HOST and $WAKE_PC_MAC are set.",
+        "defaultValue": ""
+      },
+      {
+        "key": "sshPort",
+        "type": "integer",
+        "label": "SSH port",
+        "min": 1,
+        "max": 65535,
+        "step": 1,
+        "defaultValue": 22
+      },
+      {
+        "key": "sshKey",
+        "type": "path",
+        "label": "SSH key",
+        "description": "SSH: private key to use. Leave empty for your default keys / agent.",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownUrl",
+        "type": "string",
+        "label": "Shutdown URL",
+        "description": "HTTP: URL to request, e.g. a Home Assistant webhook.",
+        "defaultValue": ""
+      },
+      {
+        "key": "shutdownHttpMethod",
+        "type": "enum",
+        "label": "Shutdown HTTP method",
+        "options": [
+          "POST",
+          "GET"
+        ],
+        "defaultValue": "POST"
+      },
+      {
+        "key": "pollSec",
+        "type": "integer",
+        "label": "Status poll interval (seconds)",
+        "min": 5,
+        "max": 600,
+        "step": 5,
+        "defaultValue": 30
+      }
+    ]
+  }
+}
