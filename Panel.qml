@@ -1108,6 +1108,16 @@ Panel {
               onEdited: function(value) { wakePanel.draft.sshKey = value }
             }
 
+            Text {
+              visible: wakePanel.draftShutdown === "ssh"
+              width: parent.width
+              text: "The first connection to a new PC automatically trusts its key (accept-new). On a shared network, connect once from a terminal first to verify it yourself."
+              color: wakePanel.warn
+              font.family: wakePanel.fontFamily
+              font.pixelSize: Style.font.bodySmall
+              wrapMode: Text.WordWrap
+            }
+
             Field {
               width: parent.width
               visible: wakePanel.draftShutdown === "windows"

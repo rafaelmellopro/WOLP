@@ -65,7 +65,12 @@ def run(cmd, timeout=15, env=None, shell=False):
 def read_secret(path):
     if not path:
         return ""
-    with open(os.path.expanduser(path), encoding="utf-8") as handle:
+    expanded = os.path.expanduser(path)
+    # Refuse loose permissions: without this, any other local account could
+    # read the password. The error reaches the panel via main()'s handler.
+    if os.stat(expanded).st_mode & 0o077:
+        raise PermissionError(f"{expanded} is group/world-readable; run: chmod 600 {expanded}")
+    with open(expanded, encoding="utf-8") as handle:
         return handle.read().strip()
 
 

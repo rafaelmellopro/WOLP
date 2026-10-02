@@ -127,7 +127,7 @@ Then click the new bar icon and choose **Add a PC**.
 | Broadcast address | magic-packet | e.g. `192.168.1.255`. Default `255.255.255.255`. |
 | UDP port | magic-packet | Usually `9` or `7`. |
 | Host / IP | magic-packet | Pinged to tell whether the PC is online. |
-| UpSnap URL | upsnap | e.g. `http://upsnap.lan:8090`. |
+| UpSnap URL | upsnap | e.g. `https://upsnap.lan:8090`. Must be `https://` (or `http://localhost`) in the form — see [security notes](#security-notes). |
 | UpSnap device ID | upsnap | The device's record ID in UpSnap. |
 | UpSnap username/email | upsnap | Leave empty if the device is public. |
 | UpSnap password file | upsnap | A file that contains only the password. |
@@ -138,7 +138,7 @@ Then click the new bar icon and choose **Add a PC**.
 | Shutdown command | ssh, command | The command to run on the PC (SSH) or on this computer (command). |
 | SSH port | ssh | Default `22`. |
 | SSH key | ssh | Private key to use. Leave empty for your default keys. |
-| Shutdown URL | http | The URL to request. |
+| Shutdown URL | http | The URL to request. Must be `https://` (or `http://localhost`) in the form — see [security notes](#security-notes). |
 | Shutdown HTTP method | http | `POST` or `GET`. |
 | Status poll interval | both | Seconds between status checks (5–600). |
 
@@ -149,6 +149,22 @@ in the settings:
 printf '%s' 'your-password' > ~/.config/upsnap-password
 chmod 600 ~/.config/upsnap-password
 ```
+
+### Security notes
+
+- **Password files must be private.** `wake-pc.py` refuses to read a password
+  file that group or others can read, and shows the `chmod 600` fix in the
+  panel.
+- **URLs that carry secrets must use HTTPS.** The add/edit form rejects
+  `http://` UpSnap and shutdown URLs (except `http://localhost`/`127.0.0.1`),
+  because the UpSnap password, session token and webhook tokens travel in
+  them unencrypted over plain HTTP. On a trusted LAN you can still set a
+  plain-HTTP URL directly in the widget settings — that path skips the
+  form's validation.
+- **SSH shutdown trusts new hosts automatically**
+  (`StrictHostKeyChecking=accept-new`). On a shared or untrusted network,
+  connect once from a terminal first, so you can verify the host key
+  yourself before the panel ever talks to the PC.
 
 You can add the widget more than once to control several PCs.
 
