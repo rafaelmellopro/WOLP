@@ -66,3 +66,23 @@ test("validation explains what's missing", () => {
   assert.match(Pcs.validate({ label: "X", mac: "aabbccddeeff", host: "x", shutdownMethod: "windows" }, list).error, /username/)
   assert.match(Pcs.validate({ label: "X", mac: "aabbccddeeff", host: "x", shutdownMethod: "http", shutdownUrl: "nope" }, list).error, /http/)
 })
+
+test("plain-HTTP URLs that carry secrets are rejected; https and loopback pass", () => {
+  const list = Pcs.fromSettings(mine)
+  const upsnap = (url) => Pcs.validate(
+    { label: "X", mode: "upsnap", upsnapUrl: url, deviceId: "abc" }, list).error
+  assert.match(upsnap("http://upsnap.lan:8090"), /https/)
+  assert.equal(upsnap("https://upsnap.lan:8090"), "")
+  assert.equal(upsnap("http://localhost:8090"), "")
+  assert.equal(upsnap("http://127.0.0.1:8090"), "")
+
+  const webhook = (url) => Pcs.validate(
+    { label: "X", mac: "aabbccddeeff", host: "x", shutdownMethod: "http", shutdownUrl: url }, list).error
+  assert.match(webhook("http://home.lan:8123/api/webhook/x"), /https/)
+  assert.equal(webhook("https://home.lan:8123/api/webhook/x"), "")
+  assert.equal(webhook("http://localhost:8123/api/webhook/x"), "")
+
+  // A shutdownMethod of upsnap checks the URL even in magic-packet mode.
+  assert.match(Pcs.validate(
+    { label: "X", mac: "aabbccddeeff", host: "x", shutdownMethod: "upsnap", upsnapUrl: "http://upsnap.lan:8090", deviceId: "abc" }, list).error, /https/)
+})

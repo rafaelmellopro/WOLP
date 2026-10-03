@@ -95,6 +95,16 @@ function normalizeMac(value) {
   return digits.toUpperCase().match(/.{2}/g).join(":")
 }
 
+// A URL sends its secrets (UpSnap password, webhook tokens) unencrypted when
+// it uses plain HTTP from a non-loopback host. The widget settings page
+// bypasses validate() and stays the escape hatch for plain-HTTP LAN servers.
+function isPlainHttp(url) {
+  var match = /^http:\/\/([^\/:]+)/.exec(String(url || ""))
+  if (!match) return false
+  var host = match[1]
+  return host !== "localhost" && host !== "::1" && !/^127\./.test(host)
+}
+
 // Returns { pc, error }. pc is cleaned up (trimmed strings, numbers, MAC in
 // AA:BB:.. form) when error is "".
 function validate(draft, others) {
@@ -119,6 +129,9 @@ function validate(draft, others) {
     if (pc.host === "") return fail("Enter the PC's host or IP so its status can be checked.")
   } else {
     if (pc.upsnapUrl === "" || pc.deviceId === "") return fail("UpSnap needs a URL and a device ID.")
+    if (isPlainHttp(pc.upsnapUrl)) {
+      return fail("UpSnap URL must use https:// (or http://localhost): plain HTTP sends the password and token unencrypted. To keep plain HTTP on a trusted LAN, set it in the widget settings.")
+    }
     if (pc.mac !== "") pc.mac = normalizeMac(pc.mac) || pc.mac
   }
 
@@ -126,6 +139,9 @@ function validate(draft, others) {
   switch (pc.shutdownMethod) {
     case "upsnap":
       if (pc.upsnapUrl === "" || pc.deviceId === "") return fail("UpSnap shutdown needs the UpSnap URL and device ID.")
+      if (isPlainHttp(pc.upsnapUrl)) {
+        return fail("UpSnap URL must use https:// (or http://localhost): plain HTTP sends the password and token unencrypted. To keep plain HTTP on a trusted LAN, set it in the widget settings.")
+      }
       break
     case "ssh":
       if (shutdownHost === "") return fail("SSH shutdown needs a host.")
@@ -136,6 +152,9 @@ function validate(draft, others) {
       break
     case "http":
       if (!/^https?:\/\//.test(pc.shutdownUrl)) return fail("Shutdown URL must start with http:// or https://.")
+      if (isPlainHttp(pc.shutdownUrl)) {
+        return fail("Shutdown URL must use https:// (or http://localhost): plain HTTP sends the URL's secrets unencrypted. To keep plain HTTP on a trusted LAN, set it in the widget settings.")
+      }
       break
     case "command":
       if (pc.shutdownCommand === "") return fail("Enter the shutdown command.")
