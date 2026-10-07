@@ -1002,7 +1002,7 @@ Panel {
               Field {
                 width: parent.width
                 name: "UpSnap URL"
-                placeholder: "http://upsnap.lan:8090"
+                placeholder: "https://upsnap.lan:8090"
                 text: wakePanel.formSeed.upsnapUrl || ""
                 fg: wakePanel.fg
                 fontFamily: wakePanel.fontFamily

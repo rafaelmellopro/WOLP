@@ -210,7 +210,7 @@ settings. It prints one JSON line such as `{"state": "online", "detail": "..."}`
 ./wake-pc.py wake   --mode magic-packet --mac AA:BB:CC:DD:EE:FF --broadcast 192.168.1.255
 ./wake-pc.py status --mode magic-packet --host 192.168.1.50
 ./wake-pc.py shutdown --shutdown-method ssh --host 192.168.1.50 --shutdown-user me
-./wake-pc.py status --mode upsnap --upsnap-url http://upsnap.lan:8090 --device-id abc123 \
+./wake-pc.py status --mode upsnap --upsnap-url https://upsnap.lan:8090 --device-id abc123 \
                     --identity me@example.com --password-file ~/.config/upsnap-password
 ```
 

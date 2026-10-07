@@ -93,7 +93,7 @@
         "key": "upsnapUrl",
         "type": "string",
         "label": "UpSnap URL",
-        "description": "UpSnap mode: e.g. http://upsnap.lan:8090",
+        "description": "UpSnap mode: e.g. https://upsnap.lan:8090",
         "defaultValue": ""
       },
       {
