@@ -18,6 +18,10 @@ also adds "latency" (milliseconds).
   windows       Samba `net rpc shutdown` against a Windows PC
   http          request --shutdown-url (webhook, Home Assistant, ...)
   command       run --shutdown-command locally with sh
+
+The widget passes the options as a JSON object in $WAKE_PC_CONFIG instead
+(keys are the option names without "--"), so URLs and commands that carry
+tokens never show up in `ps`. Options on the command line take precedence.
 """
 
 import argparse
@@ -258,7 +262,11 @@ def main():
     parser.add_argument("--ssh-key", default="")
     parser.add_argument("--shutdown-url", default="")
     parser.add_argument("--shutdown-http-method", default="POST", choices=["GET", "POST"])
-    args = parser.parse_args()
+    # Read the config and drop it from the environment so ssh and the custom
+    # shutdown command don't inherit it.
+    config = json.loads(os.environ.pop("WAKE_PC_CONFIG", "") or "{}")
+    config_args = [f"--{key}={value}" for key, value in config.items()]
+    args = parser.parse_args(config_args + sys.argv[1:])
 
     try:
         if args.action == "shutdown":

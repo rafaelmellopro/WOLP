@@ -51,28 +51,37 @@ Item {
   readonly property string shownMessage: messageText !== "" ? messageText : (pcState === "error" ? detail : "")
   readonly property string shownTone: messageText !== "" ? messageTone : "error"
 
-  function helperArgs(action) {
-    return [
-      "python3", helper, action,
-      "--mode", String(pc.mode),
-      "--mac", String(pc.mac),
-      "--broadcast", String(pc.broadcast),
-      "--port", String(pc.port),
-      "--host", String(pc.host),
-      "--upsnap-url", String(pc.upsnapUrl),
-      "--device-id", String(pc.deviceId),
-      "--identity", String(pc.identity),
-      "--password-file", String(pc.passwordFile),
-      "--shutdown-method", shutdownMethod,
-      "--shutdown-host", String(pc.shutdownHost),
-      "--shutdown-user", String(pc.shutdownUser),
-      "--shutdown-password-file", String(pc.shutdownPasswordFile),
-      "--shutdown-command=" + String(pc.shutdownCommand),
-      "--ssh-port", String(pc.sshPort),
-      "--ssh-key", String(pc.sshKey),
-      "--shutdown-url", String(pc.shutdownUrl),
-      "--shutdown-http-method", String(pc.shutdownHttpMethod)
-    ]
+  // The settings go to wake-pc.py in an environment variable, not as
+  // arguments: any local user can read a process's arguments with `ps`, but
+  // only the same user can read its environment. Shutdown URLs and commands
+  // can carry tokens.
+  function helperConfig() {
+    return JSON.stringify({
+      "mode": String(pc.mode),
+      "mac": String(pc.mac),
+      "broadcast": String(pc.broadcast),
+      "port": String(pc.port),
+      "host": String(pc.host),
+      "upsnap-url": String(pc.upsnapUrl),
+      "device-id": String(pc.deviceId),
+      "identity": String(pc.identity),
+      "password-file": String(pc.passwordFile),
+      "shutdown-method": shutdownMethod,
+      "shutdown-host": String(pc.shutdownHost),
+      "shutdown-user": String(pc.shutdownUser),
+      "shutdown-password-file": String(pc.shutdownPasswordFile),
+      "shutdown-command": String(pc.shutdownCommand),
+      "ssh-port": String(pc.sshPort),
+      "ssh-key": String(pc.sshKey),
+      "shutdown-url": String(pc.shutdownUrl),
+      "shutdown-http-method": String(pc.shutdownHttpMethod)
+    })
+  }
+
+  function start(proc, action) {
+    proc.command = ["python3", helper, action]
+    proc.environment = { "WAKE_PC_CONFIG": helperConfig() }
+    proc.running = true
   }
 
   function parse(text) {
@@ -99,16 +108,14 @@ Item {
 
   function refresh() {
     if (!statusProc.running) {
-      statusProc.command = helperArgs("status")
-      statusProc.running = true
+      start(statusProc, "status")
     }
   }
 
   function runAction(action) {
     if (actionProc.running) return
     actionProc.action = action
-    actionProc.command = helperArgs(action)
-    actionProc.running = true
+    start(actionProc, action)
     say("info", action === "wake" ? "Sending wake request…" : "Sending shutdown request…")
   }
 

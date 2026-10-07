@@ -185,6 +185,12 @@ chmod 600 ~/.config/upsnap-password
 
 ### Security notes
 
+- **Settings never go on the command line.** The widget hands its settings
+  to `wake-pc.py` in an environment variable, which only your own user can
+  read, so shutdown URLs and commands don't show up in `ps` for other
+  accounts. A token typed straight into a custom shutdown command is still
+  visible to `ps` while that command runs — read it from a file instead, as
+  in the example above.
 - **Password files must be private.** `wake-pc.py` refuses to read a password
   file that group or others can read, and shows the `chmod 600` fix in the
   panel.
@@ -205,6 +211,8 @@ Add each PC from the panel's **+** button; one widget can manage several PCs.
 
 The widget calls `wake-pc.py`, which you can also run directly to test your
 settings. It prints one JSON line such as `{"state": "online", "detail": "..."}`.
+Options given on the command line are visible to other users through `ps`,
+so don't pass token-bearing URLs this way on a shared machine.
 
 ```bash
 ./wake-pc.py wake   --mode magic-packet --mac AA:BB:CC:DD:EE:FF --broadcast 192.168.1.255
