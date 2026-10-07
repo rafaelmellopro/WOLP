@@ -166,7 +166,7 @@ chmod 600 ~/.config/upsnap-password
   connect once from a terminal first, so you can verify the host key
   yourself before the panel ever talks to the PC.
 
-You can add the widget more than once to control several PCs.
+Add each PC from the panel's **+** button; one widget can manage several PCs.
 
 ## Command-line helper
 
