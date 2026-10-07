@@ -126,7 +126,11 @@ set to `1` so local accounts can use admin rights over the network. The SSH
 method is often easier.
 
 **Custom command.** Use this for anything else, for example
-`curl -fsS -H "Authorization: Bearer $(cat ~/.config/my-token)" https://...`.
+`curl -fsS -H @$HOME/.config/my-token-header https://...`, where
+`~/.config/my-token-header` holds the line `Authorization: Bearer <token>`
+and is `chmod 600`. curl reads the header from the file itself, so the token
+never appears in its arguments. Avoid `$(cat file)`: the shell expands it
+into the command's arguments, where other users can see it with `ps`.
 
 ## Install
 
@@ -188,9 +192,11 @@ chmod 600 ~/.config/upsnap-password
 - **Settings never go on the command line.** The widget hands its settings
   to `wake-pc.py` in an environment variable, which only your own user can
   read, so shutdown URLs and commands don't show up in `ps` for other
-  accounts. A token typed straight into a custom shutdown command is still
-  visible to `ps` while that command runs — read it from a file instead, as
-  in the example above.
+  accounts. The custom shutdown command itself does run with its text as
+  arguments, though, so anything in it — including whatever `$(cat file)`
+  expands to — is visible to `ps` while it runs. Have the program read the
+  secret from a private file itself, like curl's `-H @file` in the
+  custom command example under [Shutdown methods](#shutdown-methods).
 - **Password files must be private.** `wake-pc.py` refuses to read a password
   file that group or others can read, and shows the `chmod 600` fix in the
   panel.
