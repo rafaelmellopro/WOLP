@@ -5,7 +5,7 @@ A bar widget for the Omarchy shell that wakes PCs over the network, shuts them
 down, and shows whether they are online. It handles one PC or many.
 
 <p align="center">
-  <img src="screenshots/multi-online.png" alt="Wake PC panel listing three PCs" width="450">
+  <img src="screenshots/multi-online.png" alt="WOLP panel listing three PCs" width="450">
 </p>
 
 ## Disclaimer
@@ -142,7 +142,7 @@ Then click the new bar icon and choose **Add a PC**. It sits next to your
 other bar widgets:
 
 <p align="center">
-  <img src="screenshots/bar.png" alt="The Wake PC icon in the Omarchy bar, next to the clock">
+  <img src="screenshots/bar.png" alt="The WOLP icon in the Omarchy bar, next to the clock">
 </p>
 
 ## Requirements

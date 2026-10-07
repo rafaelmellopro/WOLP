@@ -93,7 +93,7 @@ Item {
   }
 
   function notify(message) {
-    Quickshell.execDetached(["notify-send", "-a", "Wake PC", "-i", "computer", label, message])
+    Quickshell.execDetached(["notify-send", "-a", "WOLP", "-i", "computer", label, message])
   }
 
   function say(tone, text) {

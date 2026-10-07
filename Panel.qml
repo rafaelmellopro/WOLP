@@ -259,7 +259,7 @@ Panel {
     active: wakePanel.anyError
     tooltipText: {
       if (wakePanel.opened) return ""
-      if (wakePanel.monitors.length === 0) return "Wake PC: no PC set up"
+      if (wakePanel.monitors.length === 0) return "WOLP: no PC set up"
       return wakePanel.monitors.map(function(m) { return m.label + ": " + m.statusText.toLowerCase() }).join("\n")
     }
     onPressed: function(mouseButton) {
@@ -396,7 +396,7 @@ Panel {
 
             PanelHero {
               width: parent.width
-              title: "Wake PC"
+              title: "WOLP"
               meta: "No PC set up yet"
               foreground: wakePanel.fg
               fontFamily: wakePanel.fontFamily
@@ -678,7 +678,7 @@ Panel {
 
             PanelHero {
               width: parent.width
-              title: "Wake PC"
+              title: "WOLP"
               meta: wakePanel.monitors.length + " PCs · " + wakePanel.onlineCount + " online"
               foreground: wakePanel.fg
               fontFamily: wakePanel.fontFamily
