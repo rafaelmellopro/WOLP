@@ -4,6 +4,10 @@
 A bar widget for the Omarchy shell that wakes PCs over the network, shuts them
 down, and shows whether they are online. It handles one PC or many.
 
+<p align="center">
+  <img src="screenshots/multi-online.png" alt="Wake PC panel listing three PCs" width="450">
+</p>
+
 ## Disclaimer
 
 *I am not a dev* ***YET***. I am very new to all of this, and am still learning. But this plugin was 100% vibe coded by Claude Opus 5.5 using an average of 20M tokens lmao.
@@ -12,8 +16,24 @@ But hopefully this will push me to make more plugins with my hand in the mix. I 
 ## Using it
 
 **Left-click** the bar icon to open the panel. **Right-click** refreshes the
-status. The icon is dimmed while every PC is off, and pulses while one boots or
-shuts down. Hover it to see each PC's status.
+status. The icon is dimmed and crossed out while every PC is off, and pulses
+while one boots or shuts down. Hover it to see each PC's status.
+
+| A PC is online | Every PC is off |
+| :---: | :---: |
+| ![Bar icon with a PC online](screenshots/bar-online.png) | ![Bar icon with every PC off](screenshots/bar.png) |
+
+<p align="center">
+  <img src="screenshots/bar-tooltip.png" alt="Hover tooltip listing each PC's status">
+</p>
+
+### Moving the icon
+
+The icon doesn't have to stay where it lands when you install the plugin. To
+move it, hold **Super** (the Windows key, or Command on a Mac keyboard), then
+click and drag the icon to wherever you want it on the top bar: the left,
+center or right section, or between any of your other widgets. Let go to drop
+it there. Omarchy saves the new position, so it stays put after a restart.
 
 ### One PC
 
@@ -28,12 +48,20 @@ With a single PC, the panel shows:
 
 The small **+** next to the refresh button adds another PC.
 
+| Online | Off | Waking up |
+| :---: | :---: | :---: |
+| ![Single PC online](screenshots/single-online.png) | ![Single PC off](screenshots/single-offline.png) | ![Single PC waking up](screenshots/single-waking.png) |
+
 ### Several PCs
 
 Once you add a second PC, the panel becomes a list: one row per PC with its
 status dot, ping time and address, plus Wake, Shut down and Edit buttons.
 Shutdown still asks for confirmation, inside that PC's row. Remove a PC from
 its Edit form; when only one is left, the panel goes back to the single-PC view.
+
+<p align="center">
+  <img src="screenshots/multi-waking.png" alt="List view with one PC waking up" width="450">
+</p>
 
 ### Adding and editing PCs
 
@@ -106,7 +134,12 @@ method is often easier.
 omarchy plugin add https://github.com/rafaelmellopro/WOLP.git --enable --yes
 ```
 
-Then click the new bar icon and choose **Add a PC**.
+Then click the new bar icon and choose **Add a PC**. It sits next to your
+other bar widgets:
+
+<p align="center">
+  <img src="screenshots/bar.png" alt="The Wake PC icon in the Omarchy bar, next to the clock">
+</p>
 
 ## Requirements
 
