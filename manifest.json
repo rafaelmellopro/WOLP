@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "wolp.pc",
   "name": "WOLP",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": "Rafael Mello",
   "license": "MIT",
   "description": "Wake and shut down one or more PCs from an Omarchy bar panel, via Wake-on-LAN, UpSnap, SSH, Windows RPC, HTTP or a custom command.",

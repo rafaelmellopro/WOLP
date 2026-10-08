@@ -6,7 +6,7 @@ const fs = require("fs")
 const path = require("path")
 
 const source = fs.readFileSync(path.join(__dirname, "..", "Pcs.js"), "utf8").replace(/^\.pragma library\s*/, "")
-const Pcs = new Function(source + "\nreturn { fromSettings, toEntry, validate, withDefaults, normalizeMac }")()
+const Pcs = new Function(source + "\nreturn { fromSettings, toEntry, validate, withDefaults, normalizeMac, plainText }")()
 
 const mine = {
   label: "TestPC", mac: "AA:BB:CC:DD:EE:01", broadcast: "192.168.1.255", host: "192.168.1.10",
@@ -85,4 +85,13 @@ test("plain-HTTP URLs that carry secrets are rejected; https and loopback pass",
   // A shutdownMethod of upsnap checks the URL even in magic-packet mode.
   assert.match(Pcs.validate(
     { label: "X", mac: "aabbccddeeff", host: "x", shutdownMethod: "upsnap", upsnapUrl: "http://upsnap.lan:8090", deviceId: "abc" }, list).error, /https/)
+})
+
+test("outside text can't carry markup into the shell", () => {
+  assert.equal(Pcs.plainText('Desk<img src="data:image/svg+xml;base64,AAAA">'), 'Deskimg src="data:image/svg+xml;base64,AAAA"')
+  assert.equal(Pcs.plainText("Gaming PC"), "Gaming PC")
+  assert.equal(Pcs.plainText("a\nb\u0000c"), "abc")
+  assert.equal(Pcs.plainText(undefined), "")
+  assert.equal(Pcs.plainText(42), "42")
+  assert.equal(Pcs.plainText("x".repeat(500)).length, 200)
 })

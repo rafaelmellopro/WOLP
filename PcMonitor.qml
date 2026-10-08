@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import "Pcs.js" as Pcs
 
 // Watches one PC: polls its status and runs wake/shutdown through
 // wake-pc.py. Has no visuals; Panel.qml creates one per PC and draws them.
@@ -86,7 +87,9 @@ Item {
 
   function parse(text) {
     try {
-      return JSON.parse(String(text).trim())
+      var result = JSON.parse(String(text).trim())
+      result.detail = Pcs.plainText(result.detail)
+      return result
     } catch (e) {
       return { state: "error", detail: "Bad helper output" }
     }

@@ -294,6 +294,7 @@ Panel {
     spacing: Style.spacing.labelGap
 
     Text {
+      textFormat: Text.PlainText
       text: field.name
       color: Qt.darker(field.fg, 1.4)
       font.family: field.fontFamily
@@ -403,6 +404,7 @@ Panel {
               iconOpacity: 0.5
               iconComponent: Component {
                 Text {
+                  textFormat: Text.PlainText
                   text: "󰶐"
                   color: wakePanel.fg
                   font.family: wakePanel.fontFamily
@@ -412,6 +414,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               text: "Add a PC to wake it and shut it down from the bar."
               color: wakePanel.dim
@@ -452,6 +455,7 @@ Panel {
                   implicitHeight: Style.font.display + Style.space(6)
 
                   Text {
+                    textFormat: Text.PlainText
                     anchors.centerIn: parent
                     text: wakePanel.sm.pcState === "online" || wakePanel.sm.pcState === "stopping" ? "󰍹" : "󰶐"
                     color: wakePanel.sm.pcState === "online" ? wakePanel.fg : wakePanel.dim
@@ -511,6 +515,7 @@ Panel {
                   spacing: Style.space(8)
 
                   Text {
+                    textFormat: Text.PlainText
                     id: rowName
                     width: Style.space(92)
                     text: modelData.name
@@ -520,6 +525,7 @@ Panel {
                   }
 
                   Text {
+                    textFormat: Text.PlainText
                     width: parent.width - rowName.width - parent.spacing
                     text: modelData.value
                     color: wakePanel.fg
@@ -577,6 +583,7 @@ Panel {
               spacing: Style.space(8)
 
               Text {
+                textFormat: Text.PlainText
                 width: parent.width
                 text: "Shut down " + wakePanel.sm.label + "?"
                 color: wakePanel.urgent
@@ -587,6 +594,7 @@ Panel {
               }
 
               Text {
+                textFormat: Text.PlainText
                 width: parent.width
                 text: "Via " + wakePanel.shutdownLabel(wakePanel.sm.shutdownMethod) + ". Unsaved work on that PC will be lost."
                 color: wakePanel.dim
@@ -626,6 +634,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: wakePanel.sm.shownMessage !== ""
               width: parent.width
               text: wakePanel.sm.shownMessage
@@ -636,6 +645,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: !wakePanel.sm.canShutdown
               width: parent.width
               text: "Shutdown isn't set up. Pick a shutdown method in this widget's settings."
@@ -650,6 +660,7 @@ Panel {
               implicitHeight: singleChecked.implicitHeight
 
               Text {
+                textFormat: Text.PlainText
                 id: singleChecked
                 anchors.left: parent.left
                 text: wakePanel.checkedText(wakePanel.sm)
@@ -659,6 +670,7 @@ Panel {
               }
 
               Text {
+                textFormat: Text.PlainText
                 anchors.right: parent.right
                 visible: singleChecked.implicitWidth + implicitWidth + Style.space(12) <= parent.width
                 text: "W wake · S off · R refresh"
@@ -684,6 +696,7 @@ Panel {
               fontFamily: wakePanel.fontFamily
               iconComponent: Component {
                 Text {
+                  textFormat: Text.PlainText
                   text: wakePanel.onlineCount > 0 ? "󰍹" : "󰶐"
                   color: wakePanel.onlineCount > 0 ? wakePanel.fg : wakePanel.dim
                   font.family: wakePanel.fontFamily
@@ -763,6 +776,7 @@ Panel {
                       spacing: Style.space(1)
 
                       Text {
+                        textFormat: Text.PlainText
                         id: rowName
                         width: parent.width
                         text: pcRow.m.label
@@ -774,6 +788,7 @@ Panel {
                       }
 
                       Text {
+                        textFormat: Text.PlainText
                         width: parent.width
                         text: pcRow.m.statusText + (pcRow.m.pc.host ? " · " + pcRow.m.pc.host : "")
                         color: wakePanel.dim
@@ -825,6 +840,7 @@ Panel {
                     implicitHeight: rowConfirmButtons.implicitHeight
 
                     Text {
+                      textFormat: Text.PlainText
                       anchors.left: parent.left
                       anchors.leftMargin: Style.space(17)
                       anchors.right: rowConfirmButtons.left
@@ -865,6 +881,7 @@ Panel {
                   }
 
                   Text {
+                    textFormat: Text.PlainText
                     visible: pcRow.m.shownMessage !== ""
                     x: Style.space(17)
                     width: parent.width - x
@@ -881,6 +898,7 @@ Panel {
             PanelSeparator { foreground: wakePanel.fg }
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               text: "↑↓ select · W wake · S off · E edit · A add"
               color: wakePanel.dim
@@ -899,6 +917,7 @@ Panel {
             spacing: Style.space(10)
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               text: wakePanel.editIndex >= 0 ? "Edit " + wakePanel.formSeed.label : (wakePanel.pcs.length === 0 ? "Add a PC" : "Add another PC")
               color: wakePanel.fg
@@ -925,6 +944,7 @@ Panel {
               spacing: Style.spacing.labelGap
 
               Text {
+                textFormat: Text.PlainText
                 text: "Wake method"
                 color: Qt.darker(wakePanel.fg, 1.4)
                 font.family: wakePanel.fontFamily
@@ -1109,6 +1129,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: wakePanel.draftShutdown === "ssh"
               width: parent.width
               text: "The first connection to a new PC automatically trusts its key (accept-new). On a shared network, connect once from a terminal first to verify it yourself."
@@ -1164,6 +1185,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: wakePanel.formError !== ""
               width: parent.width
               text: wakePanel.formError
@@ -1218,6 +1240,7 @@ Panel {
               spacing: Style.space(8)
 
               Text {
+                textFormat: Text.PlainText
                 width: parent.width
                 text: "Remove " + wakePanel.formSeed.label + " from the list?"
                 color: wakePanel.urgent

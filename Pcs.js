@@ -162,3 +162,14 @@ function validate(draft, others) {
   }
   return { pc: pc, error: "" }
 }
+
+// Text from outside the widget (an UpSnap device name, an error from a remote
+// server) shown in the bar, the panel or a notification. Qt Text and most
+// notification daemons render markup, and an embedded image would load inside
+// the shell, so markup characters and control characters are dropped and the
+// length is capped.
+function plainText(value) {
+  return String(value === undefined || value === null ? "" : value)
+    .replace(/[<>&\u0000-\u001f\u007f]/g, "")
+    .slice(0, 200)
+}
